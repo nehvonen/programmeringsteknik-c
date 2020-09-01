@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq; 
 
 namespace WordsApp
@@ -19,12 +20,18 @@ namespace WordsApp
 
             int wordCount = words.Length;
             string longestWord = string.Empty;
-            foreach (var character in enteredString)
+            foreach (var word in words)
             {
-            
-                if (vowels.Contains(myLowercaseString))
+                foreach (var character in word)
                 {
-                    vowelCount++;
+                    if (vowels.Contains(character))
+                    {
+                        vowelCount++;
+                    }
+                }
+                if (word.Length > longestWord.Length)
+                {
+                    longestWord = word;
                 }
 
             }
@@ -39,9 +46,9 @@ namespace WordsApp
             // Antal vokaler
             // Vilket är det längsta ordet
 
-            Console.WriteLine(" Word count " + wordCount);
+            Console.WriteLine("Word count " + wordCount);
             Console.WriteLine("Vowel count " + vowelCount);
-            Console.WriteLine(" Longest word " + longestWord + ", " + longestWord.Length);
+            Console.WriteLine("Longest word " + longestWord + ", " + longestWord.Length + "characters");
 
 
 
