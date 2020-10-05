@@ -7,9 +7,9 @@ namespace leapyearcalculator
         static void Main(string[] args)
         {
             // Räkna ut hur många skottår som passerat mellan två inmatade värden.
-            Console.WriteLine("Mata in det lägsta året");
+            Console.WriteLine("Please write a year (Example: 1992)");
             string firstYear = Console.ReadLine();
-            Console.WriteLine("Mata in det högsta året");
+            Console.WriteLine("Please write another year (Example: 2020)");
             string secondYear = Console.ReadLine();
             int integerYearone = int.Parse(firstYear);
             int integerYearSecond = int.Parse(secondYear);
@@ -26,12 +26,6 @@ namespace leapyearcalculator
                                       nextYear.ToString("d"));
                 }
             }
-
-
-
-
-
-            // DateTime.IsLeapYear(year) är en metod man kan använda.
         }
     }
 }
