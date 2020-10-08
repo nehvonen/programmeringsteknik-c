@@ -1,5 +1,6 @@
 ﻿using CommandLine;
 using Imageflow.Fluent;
+using System.IO;
 
 namespace Resizer
 {
@@ -31,15 +32,47 @@ namespace Resizer
             // detta kan göras genom att lägga till .Wait(), annars avslutas programmet för tidigt.
 
             // Options-objektet behöver skapas från args
-            // https://github.com/commandlineparser/commandline#quick-start-examples            
+            // https://github.com/commandlineparser/commandline#quick-start-examples         
+
+            Parser.Default.ParseArguments<Options>(args)
+                            .WithParsed<Options>(Run);
         }
 
         static void Run(Options options)
         {
-            using (var job = new ImageJob())
+            using (var stream = File.OpenRead(options.Input))
             {
+                var outputFileName = GetOutputFileName(options.Input);
+
+                using (var outStream = File.OpenWrite(outputFileName))
+                {
+                    using (var job = new ImageJob())
+                    {
+                        job.Decode(stream, false)
+
+                            .ResizerCommands("width=128&height=128&mode=crop")
+
+                            .EncodeToStream(outStream, false, new MozJpegEncoder(90))
+                            .Finish()
+                            .InProcessAsync()
+                            .Wait();
+                    }
+                }
                 
             }
+
+            
+        }
+
+        static string GetOutputFileName(string path)
+        {
+            string directory = Path.GetDirectoryName(path);
+            string fileName = Path.GetFileNameWithoutExtension(path);
+            string extension = Path.GetExtension(path);
+
+            string newFileName = $"{fileName}-resized{extension}";
+
+            return Path.Combine(directory, newFileName);
         }
     }
 }
