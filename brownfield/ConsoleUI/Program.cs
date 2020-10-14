@@ -78,10 +78,4 @@ namespace ConsoleUI
             Console.ReadKey();
         }
     }
-
-    public class TimeSheetEntry
-    {
-        public string WorkDone;
-        public int HoursWorked;
-    }
 }
